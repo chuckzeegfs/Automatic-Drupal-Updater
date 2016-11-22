@@ -50,6 +50,10 @@ GIT_REMOTE_BRANCH='master'
 # Remote git name that is pulled and pushed to.
 GIT_REMOTE_NAME='origin'
 
+# What branch should the PR be opened against? This defined the 'base' option
+# of the hub pull-request command.
+GIT_PULL_REQUEST_AGAINST='master'
+
 # Drupal version being updated.
 DRUPAL_VERSION=7
 
@@ -158,5 +162,5 @@ if ! git diff-index --quiet HEAD --; then
 	git commit -am "Installed updates automatically for ${FORMATTED_DATE}"
 	git push $GIT_REMOTE_NAME "${DATE}-updates"
 	echo -e "Drupal Updates for ${FORMATTED_DATE}\n\nThese updates were automatically installed with the drupal-updates.sh script in the **${ENVIRONMENT}** environment at ${ENVIRONMENT_URL}. Please review the changes before merging.\n\nOnce merged, you will need to deploy the main branch to the production environment. It is recommended to run updb and cache clear with Drush when deploying.\n\n$(cat ${COMMIT_MESSAGE_LOCATION})" > ${COMMIT_MESSAGE_LOCATION}
-	hub pull-request -F ${COMMIT_MESSAGE_LOCATION} "${DATE}-updates"
+	hub pull-request -F ${COMMIT_MESSAGE_LOCATION} -b ${GIT_PULL_REQUEST_AGAINST} "${DATE}-updates"
 fi
