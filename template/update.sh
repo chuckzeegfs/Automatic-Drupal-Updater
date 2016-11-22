@@ -25,6 +25,9 @@
 # The name of the environment this is being run in. Only used for display purposes.
 ENVIRONMENT='staging'
 
+# The URL of the environment, inserted into the pull request.
+ENVIRONMENT_URL='https://example.com/'
+
 # Site's docroot.
 # Example:
 # DRUPAL_ROOT='/home/leadmgmt/app/leadmanagement/public_html'
@@ -154,6 +157,6 @@ if ! git diff-index --quiet HEAD --; then
 	git add .
 	git commit -am "Installed updates automatically for ${FORMATTED_DATE}"
 	git push $GIT_REMOTE_NAME "${DATE}-updates"
-	echo -e "Drupal Updates for ${FORMATTED_DATE}\n\nThese updates were automatically installed with the drupal-updates.sh script in the **${ENVIRONMENT}** environment. Please review the changes before merging.\n\nOnce merged, you will need to deploy the main branch to the production environment. It is recommended to run updb and cache clear with Drush when deploying.\n\n$(cat ${COMMIT_MESSAGE_LOCATION})" > ${COMMIT_MESSAGE_LOCATION}
+	echo -e "Drupal Updates for ${FORMATTED_DATE}\n\nThese updates were automatically installed with the drupal-updates.sh script in the **${ENVIRONMENT}** environment at ${ENVIRONMENT_URL}. Please review the changes before merging.\n\nOnce merged, you will need to deploy the main branch to the production environment. It is recommended to run updb and cache clear with Drush when deploying.\n\n$(cat ${COMMIT_MESSAGE_LOCATION})" > ${COMMIT_MESSAGE_LOCATION}
 	hub pull-request -F ${COMMIT_MESSAGE_LOCATION} "${DATE}-updates"
 fi
