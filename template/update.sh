@@ -129,6 +129,10 @@ if [ $DRUPAL_VERSION = 7 ]; then
 	drush $DRUSH_ALIAS cc all
 fi
 
+if [ $DRUPAL_VERSION = 8 ]; then
+	drush $DRUSH_ALIAS cr
+fi
+
 # Update the site with drush or composer.
 echo '```\n' &> ${COMMIT_MESSAGE_LOCATION}
 if [ $DRUSH_MANAGED = 1 ]; then
