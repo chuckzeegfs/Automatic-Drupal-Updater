@@ -6,10 +6,15 @@
 # This script will run automatic updates via Drush or composer on a Drupal site,
 # and then automatically open a pull request on the remote Github repository used
 # for the site.
+#
+# Also includes the functionality to sync a prod db/filesystem to the current
+# installation prior to running updates.
 # 
 # Requirements:
-#  - Properly configured Drush alias
-#  - The 'hub' tool: https://github.com/github/hub, which requires Go on the server to install.
+#  - Properly configured Drush alias for this site and production site.
+#      Your should be able to run "@drush <alias> status" and get a normal status.
+#  - The 'hub' tool: https://github.com/github/hub, which requires 
+#      Go on the server to install.
 #      Installing Go: https://golang.org/doc/install#install
 #  - The GIT_TOKEN environment variable must be defined in .bash_profile.
 #      Example: export GITHUB_TOKEN=<token>
@@ -36,7 +41,16 @@ DRUPAL_ROOT='/path/to/drupal'
 # Drush alias for this site.
 # Example:
 # ALIAS='@leads.test'
-ALIAS='@none'
+DRUSH_ALIAS='@none'
+
+# Drush alias for the production site. If provided and SYNC_PROC is 1,
+# the production site database and files will be synced after switching to the
+# correct branch.
+DRUSH_ALIAS_PROD='@none'
+
+# Whether or not to sync the production files and DB prior to update.
+# Requires a working production Drush alias from this location.
+SYNC_PROD=1
 
 # If you want to keep htaccess after a core upgrade, set to 1
 KEEP_HTACCESS=1
@@ -100,16 +114,25 @@ git config --global user.email $MAINTENANCE_EMAIL
 git checkout $GIT_REMOTE_BRANCH
 git pull $GIT_REMOTE_NAME $GIT_REMOTE_BRANCH
 
+# Sync the prod database and files.
+if [ $SYNC_PROD = 1 ]; then
+    echo "Syncing '$DRUSH_ALIAS' from '$DRUSH_ALIAS_PROD'..."
+    drush $DRUSH_ALIAS sql-drop -y
+    drush sql-sync $DRUSH_ALIAS_PROD $DRUSH_ALIAS -y
+    echo "Syncing '$DRUSH_ALIAS' files with '$DRUSH_ALIAS_PROD' via rsync..."
+    drush -y rsync $DRUSH_ALIAS_PROD:%files/ $DRUSH_ALIAS:%files
+fi
+
 # Clear all the cache
 # Drush is applicable for both D8 and D7 even when managed with composer.
 if [ $DRUPAL_VERSION = 7 ]; then
-	drush $ALIAS cc all
+	drush $DRUSH_ALIAS cc all
 fi
 
 # Update the site with drush or composer.
 echo '```\n' &> ${COMMIT_MESSAGE_LOCATION}
 if [ $DRUSH_MANAGED = 1 ]; then
-	(drush $ALIAS -y up) >> ${COMMIT_MESSAGE_LOCATION}
+	(drush $DRUSH_ALIAS -y up) >> ${COMMIT_MESSAGE_LOCATION}
 else
 	cd $COMPOSER_ROOT
 	(composer update) >> ${COMMIT_MESSAGE_LOCATION}
