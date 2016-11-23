@@ -141,7 +141,7 @@ if [ $DRUSH_MANAGED = 1 ]; then
 	(drush $DRUSH_ALIAS -y up) >> ${COMMIT_MESSAGE_LOCATION}
 else
 	cd $COMPOSER_ROOT
-	(composer update) >> ${COMMIT_MESSAGE_LOCATION}
+	(composer update) 2>&1 | tee -a ${COMMIT_MESSAGE_LOCATION}
 	cd $DRUPAL_ROOT
 	(drush $DRUSH_ALIAS -y updb) >> ${COMMIT_MESSAGE_LOCATION}
 fi
