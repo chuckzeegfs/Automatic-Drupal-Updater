@@ -138,12 +138,13 @@ fi
 # Update the site with drush or composer.
 echo '```\n' &> ${COMMIT_MESSAGE_LOCATION}
 if [ $DRUSH_MANAGED = 1 ]; then
-	(drush $DRUSH_ALIAS -y up) >> ${COMMIT_MESSAGE_LOCATION} 2>&1
+	(drush $DRUSH_ALIAS -y up) >> ${COMMIT_MESSAGE_LOCATION}
 else
 	cd $COMPOSER_ROOT
-	(composer update) >> ${COMMIT_MESSAGE_LOCATION} 2>&1
+	# There doesn't seem to be a way to output composer text to the file reliably.
+	composer update
 	cd $DRUPAL_ROOT
-	(drush $DRUSH_ALIAS -y updb) >> ${COMMIT_MESSAGE_LOCATION} 2>&1
+	(drush $DRUSH_ALIAS -y updb) >> ${COMMIT_MESSAGE_LOCATION}
 fi
 echo '\n```' >> ${COMMIT_MESSAGE_LOCATION}
 
