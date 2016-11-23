@@ -144,7 +144,7 @@ else
 	# There doesn't seem to be a way to output composer text to the file reliably.
 	composer update
 	cd $DRUPAL_ROOT
-	(drush $DRUSH_ALIAS -y updb) >> ${COMMIT_MESSAGE_LOCATION}
+	(drush $DRUSH_ALIAS -y updb) >> ${COMMIT_MESSAGE_LOCATION} 2>&1
 fi
 echo '\n```' >> ${COMMIT_MESSAGE_LOCATION}
 
