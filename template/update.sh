@@ -138,12 +138,12 @@ fi
 # Update the site with drush or composer.
 echo '```\n' &> ${COMMIT_MESSAGE_LOCATION}
 if [ $DRUSH_MANAGED = 1 ]; then
-	(drush $DRUSH_ALIAS -y up) >> ${COMMIT_MESSAGE_LOCATION}
+	(drush $DRUSH_ALIAS -y up) >> ${COMMIT_MESSAGE_LOCATION} 2>&1
 else
 	cd $COMPOSER_ROOT
-	(composer update) 2>&1 | tee -a ${COMMIT_MESSAGE_LOCATION}
+	(composer update) >> ${COMMIT_MESSAGE_LOCATION} 2>&1
 	cd $DRUPAL_ROOT
-	(drush $DRUSH_ALIAS -y updb) >> ${COMMIT_MESSAGE_LOCATION}
+	(drush $DRUSH_ALIAS -y updb) >> ${COMMIT_MESSAGE_LOCATION} 2>&1
 fi
 echo '\n```' >> ${COMMIT_MESSAGE_LOCATION}
 
