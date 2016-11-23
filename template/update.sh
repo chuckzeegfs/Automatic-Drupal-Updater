@@ -76,8 +76,10 @@ DRUPAL_VERSION=7
 # This should always be 1 on a Drupal 7 site.
 DRUSH_MANAGED=1
 
-# If a site is composer managed, it might havea  different docroot where composer.json
+# If a site is composer managed, it might have a different docroot where composer.json
 # is located.
+# Example:
+# DRUPAL_ROOT='/home/leadmgmt/app/leadmanagement'
 COMPOSER_ROOT=''
 
 # NO NEED TO EDIT BELOW THIS LINE
@@ -141,6 +143,7 @@ else
 	cd $COMPOSER_ROOT
 	(composer update) >> ${COMMIT_MESSAGE_LOCATION}
 	cd $DRUPAL_ROOT
+	(drush $DRUSH_ALIAS -y updb) >> ${COMMIT_MESSAGE_LOCATION}
 fi
 echo '\n```' >> ${COMMIT_MESSAGE_LOCATION}
 
