@@ -14,6 +14,9 @@ Set up a cronjob to run the script at a desired interval.
 (/home/leadmgmt/app/Automatic-Drupal-Updater/update.sh &> /home/leadmgmt/app/Automatic-Drupal-Updater/log.log 2>&1)
 ```
 
+*Cron Setup*
+The best way to inherit the normal interactive shell's PATH settings so drush doesn't fail is to run `env` in a terminal and copy the "PATH=" line. When using `crontab -e`, place the entire line above the cronjob.
+
 ## Requirements
 
 - Properly configured Drush alias
