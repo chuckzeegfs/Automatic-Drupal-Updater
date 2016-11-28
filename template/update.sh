@@ -1,4 +1,5 @@
 #!/bin/bash
+source $HOME/.bash_profile
 
 ################################################
 # Drupal Automatic Updater + Pull Request Script
