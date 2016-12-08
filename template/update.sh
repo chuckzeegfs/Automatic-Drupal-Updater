@@ -196,4 +196,15 @@ if ! git diff-index --quiet HEAD --; then
 	git push $GIT_REMOTE_NAME "${DATE}-updates"
 	echo -e "Drupal Updates for ${FORMATTED_DATE}\n\nThese updates were automatically installed with the Automatic Drupal Updater script in the **${ENVIRONMENT}** environment at ${ENVIRONMENT_URL}. Please review the changes before merging.\n\nOnce merged, you will need to deploy the main branch to the production environment. It is recommended to run updb and cache clear with Drush when deploying.\n\n$(cat ${COMMIT_MESSAGE_LOCATION})" > ${COMMIT_MESSAGE_LOCATION}
 	hub pull-request -F ${COMMIT_MESSAGE_LOCATION} -b ${GIT_PULL_REQUEST_AGAINST} "${DATE}-updates"
+
+  # Clear all the cache
+  # Drush is applicable for both D8 and D7 even when managed with composer.
+  if [ $DRUPAL_VERSION = 7 ]; then
+    drush $DRUSH_ALIAS cc all
+  fi
+
+  if [ $DRUPAL_VERSION = 8 ]; then
+    drush $DRUSH_ALIAS cr
+  fi
+  
 fi
