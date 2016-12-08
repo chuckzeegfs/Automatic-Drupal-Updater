@@ -190,6 +190,8 @@ if ! git diff-index --quiet HEAD --; then
 		git checkout '.htaccess'
 	fi
 
+  git checkout '.gitignore'
+
 	git checkout -B "${DATE}-updates"
 	git add .
 	git commit -am "Installed updates automatically for ${FORMATTED_DATE}"
@@ -206,5 +208,5 @@ if ! git diff-index --quiet HEAD --; then
   if [ $DRUPAL_VERSION = 8 ]; then
     drush $DRUSH_ALIAS cr
   fi
-  
+
 fi
