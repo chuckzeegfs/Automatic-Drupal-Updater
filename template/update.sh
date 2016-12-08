@@ -160,6 +160,7 @@ if ! git diff-index --quiet HEAD --; then
 		rm -f INSTALL.pgsql.txt
 		rm -f INSTALL.sqlite.txt
 		rm -f INSTALL.txt
+    rm -f LICENSE.txt
 		rm -f MAINTAINERS.txt
 		rm -f README.txt
 		rm -f UPGRADE.txt
