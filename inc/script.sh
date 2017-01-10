@@ -2,6 +2,13 @@
 # THIS FILE IS VERSION CONTROLLED.
 ###################################
 
+# Date format
+DATE=`date +"%m/%d/%Y_%I-%M%P"`
+
+# What branch on the origin should the PR be opened against? 
+# This defined the 'base' option of the hub pull-request command.
+GIT_PULL_REQUEST_HEAD="gfs-maintenance/${GIT_REMOTE_REPO_NAME}:${DATE}-updates"
+
 # The directory this script is in.
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
 
@@ -110,7 +117,8 @@ if ! git diff-index --quiet HEAD --; then
   git commit -am "Installed updates automatically for ${FORMATTED_DATE}"
   git push $GIT_REMOTE_FORK_NAME "${DATE}-updates"
   echo -e "Drupal Updates for ${FORMATTED_DATE}\n\nThese updates were automatically installed with the Automatic Drupal Updater script in the **${ENVIRONMENT}** environment at ${ENVIRONMENT_URL}. Please review the changes before merging.\n\nOnce merged, you will need to deploy the main branch to the production environment. It is recommended to run updb and cache clear with Drush when deploying.\n\n$(cat ${COMMIT_MESSAGE_LOCATION})" > ${COMMIT_MESSAGE_LOCATION}
-  hub pull-request -F ${COMMIT_MESSAGE_LOCATION} -b ${GIT_PULL_REQUEST_AGAINST} -h ${GIT_PULL_REQUEST_HEAD} "${DATE}-updates"
+  echo "${GIT_PULL_REQUEST_HEAD}"
+  hub pull-request -F ${COMMIT_MESSAGE_LOCATION} -b ${GIT_PULL_REQUEST_AGAINST} -h "${GIT_PULL_REQUEST_HEAD}" "${DATE}-updates"
 
   # Clear all the cache
   # Drush is applicable for both D8 and D7 even when managed with composer.

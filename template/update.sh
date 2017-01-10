@@ -26,9 +26,6 @@ source $HOME/.bash_profile
 #
 ###############################################
 
-# Date format
-DATE=`date +"%m/%d/%Y_%I-%M%P"`
-
 # ENTER SETTINGS BELOW
 
 # The name of the environment this is being run in. Only used for display purposes.
@@ -54,7 +51,7 @@ DRUSH_ALIAS_PROD='@none'
 
 # Whether or not to sync the production files and DB prior to update.
 # Requires a working production Drush alias from this location.
-SYNC_PROD=1
+SYNC_PROD=0
 
 # If you want to keep htaccess after a core upgrade, set to 1
 KEEP_HTACCESS=1
@@ -68,17 +65,6 @@ GIT_REMOTE_BRANCH='master'
 # Remote git name that is pulled and pushed to.
 GIT_REMOTE_NAME='origin'
 
-# Remote git name that is pulled and pushed to.
-GIT_REMOTE_FORK_NAME='maintenance'
-
-# What branch on the origin should the PR be opened against? 
-# This defined the 'base' option of the hub pull-request command.
-GIT_PULL_REQUEST_AGAINST='master'
-
-# What branch on the origin should the PR be opened against? 
-# This defined the 'base' option of the hub pull-request command.
-GIT_PULL_REQUEST_HEAD='gfs-maintenance/${DATE}-updates'
-
 # Drupal version being updated.
 DRUPAL_VERSION=7
 
@@ -87,15 +73,23 @@ DRUPAL_VERSION=7
 # This should always be 1 on a Drupal 7 site.
 DRUSH_MANAGED=1
 
-# If a site is composer managed, it might have a different docroot where composer.json
+# If a site is composer managed, it might havea  different docroot where composer.json
 # is located.
-# Example:
-# DRUPAL_ROOT='/home/leadmgmt/app/leadmanagement'
 COMPOSER_ROOT=''
+
+# What branch on the origin should the PR be opened against? 
+# This defined the 'base' option of the hub pull-request command.
+GIT_PULL_REQUEST_AGAINST='master'
+
+# Remote git name that is pulled and pushed to.
+# The repo on this server should have a remote named this.
+GIT_REMOTE_FORK_NAME='maintenance'
+
+# The remote repository name, used when opening pull requests.
+GIT_REMOTE_REPO_NAME='Git-Project'
+
 
 # NO NEED TO EDIT BELOW THIS LINE
 ###################################
 
-INC="${BASH_SOURCE%/*}"
-if [[ ! -d "$INC" ]]; then INC="$PWD"; fi
-. "$INC/inc/script.sh"
+. ./inc/script.sh
