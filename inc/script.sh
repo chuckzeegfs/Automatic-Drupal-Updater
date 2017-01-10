@@ -9,9 +9,6 @@ DATE=`date +"%m/%d/%Y_%I-%M%P"`
 # This defined the 'base' option of the hub pull-request command.
 GIT_PULL_REQUEST_HEAD="gfs-maintenance/${GIT_REMOTE_REPO_NAME}:${DATE}-updates"
 
-# The directory this script is in.
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
-
 # The info for the Git user we are working as.
 MAINTENANCE_NAME="Maintenance User"
 MAINTENANCE_EMAIL="martech+maintenance@gfs.com"
