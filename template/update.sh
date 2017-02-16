@@ -92,4 +92,7 @@ GIT_REMOTE_REPO_NAME='Git-Project'
 # NO NEED TO EDIT BELOW THIS LINE
 ###################################
 
-. ./inc/script.sh
+# The directory this script is in.
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd );
+
+. ${DIR}/inc/script.sh
