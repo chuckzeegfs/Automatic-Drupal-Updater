@@ -14,7 +14,7 @@ if [ $# -eq 0 ]
 cat <<EOT >> ~/.ssh/config
 Host github.com
   Hostname github.com
-  IdentityFile ~/.ssh/$1+sit-deployment_github-com.key
+  IdentityFile ~/.ssh/$1+sit_github-com.key
   IdentitiesOnly yes
 Host github.com-maintenance
   Hostname github.com
