@@ -10,4 +10,16 @@ if [ $# -eq 0 ]
   else
     ssh-keygen -t rsa -b 4096 -N '' -C "~/.ssh/$1+sit_github-com" -f ~/.ssh/$1+sit_github-com.key
     ssh-keygen -t rsa -b 4096 -N '' -C "~/.ssh/$1+maintenance_github-com" -f ~/.ssh/$1+maintenance_github-com.key
+
+cat <<EOT >> ~/.ssh/config
+Host github.com
+  Hostname github.com
+  IdentityFile ~/.ssh/$1+sit-deployment_github-com.key
+  IdentitiesOnly yes
+Host github.com-maintenance
+  Hostname github.com
+  IdentityFile ~/.ssh/$1+maintenance_github-com.key
+  IdentitiesOnly yes
+EOT
+
 fi
