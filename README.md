@@ -22,7 +22,11 @@ The best way to inherit the normal interactive shell's PATH settings so drush do
 - Properly configured Drush alias
 - The 'hub' tool: https://github.com/github/hub, which requires Go on the server to install. Installing Go: https://golang.org/doc/install#install
 - The GIT_TOKEN environment variable must be defined in .bash_profile. Example: `export GITHUB_TOKEN=<token>`
-- The environment you run the script on must have a write level Github deploy key for the repository.
+- The environment you run the script on must have a write level Github deploy key for the repository. See https://confluence.gfs.com/confluence/display/CORPISMARTECH/Connecting+to+source+control for instructions on setting up the keys.
+
+## Helpers
+
+Use the `helpers/staging-keygen.sh` file on the staging environment to generate an appropriate key for the maintenance and deployment tasks. Example: `./staging-keygen.sh My-Repo-Name`
 
 ## Pausing
 
